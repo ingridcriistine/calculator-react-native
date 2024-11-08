@@ -27,15 +27,56 @@ export default function Calculator() {
   function calculate() {
     if (currentValue.includes("+")) {
       var operator = currentValue.split("+");
-      // sum(operator);
+      sum({operator});
+    }
+    if (currentValue.includes("-")) {
+      var operator = currentValue.split("-");
+      sub({operator});
+    }
+    if (currentValue.includes("*")) {
+      var operator = currentValue.split("*");
+      mult({operator});
+    }
+    if (currentValue.includes("/")) {
+      var operator = currentValue.split("/");
+      div({operator});
     }
   }
   
-  function sum({value} : {value:string}) {
-    var operator = value.split("+");
+  function sum({operator} : {operator:string[]}) {
+    var result = parseFloat(operator[0]);
+    for (let i = 1; i < operator.length; i++) {
+      result += parseFloat(operator[i]);
+    }
+  
+    setCurrentValue(result.toString());
+  }
 
-    console.log(operator);
-    
+  function sub({operator} : {operator:string[]}) {
+    var result = parseFloat(operator[0]);
+    for (let i = 1; i < operator.length; i++) {
+      result -= parseFloat(operator[i]);
+    }
+  
+    setCurrentValue(result.toString());
+  }
+
+  function mult({operator} : {operator:string[]}) {
+    var result = parseFloat(operator[0]);
+    for (let i = 1; i < operator.length; i++) {
+      result *= parseFloat(operator[i]);
+    }
+  
+    setCurrentValue(result.toString());
+  }
+
+  function div({operator} : {operator:string[]}) {
+    var result = parseFloat(operator[0]);
+    for (let i = 1; i < operator.length; i++) {
+      result /= parseFloat(operator[i]);
+    }
+  
+    setCurrentValue(result.toString());
   }
 
   function clear() {
