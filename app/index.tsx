@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, StatusBar, SafeAreaView } from "react-native";
+import { StyleSheet, Image, Text, View, StatusBar, SafeAreaView, TouchableOpacity } from "react-native";
 
 import Row from "../components/row";
 import Button from "../components/button";
@@ -8,16 +8,36 @@ import calculator, { initialState } from "../util/calculator";
 export default function Calculator() {
 
   const [currentValue, setCurrentValue] = useState<string>("");
+  const [cientificCalculator, setCientificCalculator] = useState<boolean>(false);
 
   function showNumbers({value}: {value:string}) {
     setCurrentValue(currentValue + value);
   }
 
+  function handleCalculator(cientificCalculator : boolean) {
+    if(cientificCalculator === false) {
+      setCientificCalculator(true);
+    }
+
+    if(cientificCalculator === true) {
+      setCientificCalculator(false);
+    }
+  }
+
+  function calculate() {
+    if (currentValue.includes("+")) {
+      var operator = currentValue.split("+");
+      // sum(operator);
+    }
+  }
   
-  function calculate({value} : {value:string}) {
-    var operator = value.split("+-/*");
+  function sum({value} : {value:string}) {
+    var operator = value.split("+");
+
+    console.log(operator);
     
   }
+
   function clear() {
     setCurrentValue("");
   }
@@ -55,6 +75,13 @@ export default function Calculator() {
               style={styles.btn}
               onPress={() => showNumbers({ value : "/" })}
             />
+            {cientificCalculator ? (
+              <Button
+                text="x²"
+                theme="accent"
+                onPress={() => showNumbers({ value : "/" })}
+              />
+            ) : null}
           </Row>
 
           <Row>
@@ -67,6 +94,13 @@ export default function Calculator() {
               style={styles.btn}
               onPress={() => showNumbers({ value : "*" })}
             />
+            {cientificCalculator ? (
+              <Button
+                text="x³"
+                theme="accent"
+                onPress={() => showNumbers({ value : "/" })}
+              />
+            ) : null}
           </Row>
 
           <Row>
@@ -79,6 +113,14 @@ export default function Calculator() {
               style={styles.btn}
               onPress={() => showNumbers({ value : "-" })}
             />
+            {cientificCalculator ? (
+              <Button
+                text="√"
+                theme="accent"
+                style={styles.btn}
+                onPress={() => showNumbers({ value : "/" })}
+              />
+            ) : null}
           </Row>
 
           <Row>
@@ -91,12 +133,23 @@ export default function Calculator() {
               style={styles.btn}
               onPress={() => showNumbers({ value : "+" })}
             />
+            {cientificCalculator ? (
+              <Button
+                text="π"
+                theme="accent"
+                style={{ display: cientificCalculator ? 'flex' : 'none' }}
+                onPress={() => showNumbers({ value : "/" })}
+              />
+            ) : null}
           </Row>
 
           <Row>
+            <TouchableOpacity style={styles.calculator} onPress={() => handleCalculator(cientificCalculator)}>
+              <Image source={require("../assets/images/calculator.svg")} style={styles.img}/>
+            </TouchableOpacity>
             <Button
               text="0"
-              size="double"
+              size="accent"
               style={styles.btn}
               onPress={() => showNumbers({ value : "0" })}
             />
@@ -105,7 +158,7 @@ export default function Calculator() {
               text="="
               theme="accent"
               style={styles.btn}
-              onPress={() => calculate({ value : "=" })}
+              onPress={() => calculate()}
             />
           </Row>
         </SafeAreaView>
@@ -129,5 +182,24 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   btn: {
+    width: 20,
+    height: 20
+  },
+  img: {
+    width: 50,
+    height: 50,
+  },
+  calculator: {
+    backgroundColor: "#333333",
+    flex: 1,
+    height: Math.floor(50 + 30),
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: Math.floor(50),
+    margin: 5
+  },
+  btnC: {
+    width: 20,
+    height: 20
   }
 });
